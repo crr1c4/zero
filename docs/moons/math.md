@@ -1,15 +1,24 @@
 # The math moon.
 
-## Constants
-    const:
-        PI:     <number>    The proportion between the diameter and the circunference of a circle.
-        E:      <number>    The Euler natural number.
+The math moon provides constants and functions for advanced mathematical operations.
 
-## Functions.
+```
+import moons:math
+```
+
+## Constants
+
+| Name | Type   | Description                                                                |
+| ---- | ------ | -------------------------------------------------------------------------- |
+| PI   | number | The proportion between the diameter and the circunference of a circle (π). |
+| E    | number | The Euler natural number.                                                  |
+
+## Functions
+
 | Name      | Params                 | Returns | Description                            |
 | --------- | ---------------------- | ------- | -------------------------------------- |
-| **sin**   | (x: number)            | number  |                                        |
-| **cos**   | (x: number)            | number  |                                        |
+| **sin**   | (x: number)            | number  | Return the sine of x.                  |
+| **cos**   | (x: number)            | number  | Return the cosine of x.                |
 | **tan**   | (x: number)            | number  |                                        |
 | **atan**  | (x: number)            | number  |                                        |
 | **acos**  | (x: number)            | number  |                                        |
@@ -20,3 +29,7 @@
 | **floor** | (x: number)            | number  |                                        |
 | **ceil**  | (x: number)            | number  |                                        |
 | **rnd**   | (x: number, y: number) | number  | Return a random number between [x, y). |
+
+## State
+- ✅ Auto imported.
+- ☑️ Stable.

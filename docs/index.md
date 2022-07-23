@@ -2,4 +2,5 @@
 
 The functional and zero skills programming lenguage, made for begginer programmers.
 
-- Moons
+- [Basics](basics/index)
+- [Moons](/moons/index)
