@@ -9,3 +9,8 @@ pub fn parse_input(input: &str) {
     let parse = GrammarParser::parse(Rule::HELLO, &input);
     println!("{:?}", parse)
 }
+
+#[cfg(test)]
+mod tests {
+
+}
