@@ -1,8 +1,7 @@
 use std::env;
-use zero::read_args;
-use zero::Lexer;
+use zero::Interpreter;
 
 fn main() {
-    let content = read_args(env::args());
-    Lexer::lex(content);
+    let content = Interpreter::read_args(env::args());
+    Interpreter::parse(&content);
 }
