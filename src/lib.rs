@@ -1,7 +1,7 @@
+mod parser;
 use std::env;
 use std::fs::read_to_string;
-mod parser;
-
+use parser::LexicalAnalyzer;
 pub struct Interpreter;
 
 impl Interpreter {
@@ -25,7 +25,9 @@ impl Interpreter {
         file_content
     }
 
-    pub fn parse(input: &str) {
-        parser::parse(input);
+    pub fn parse(input: String) {
+        let analyzer = LexicalAnalyzer::new(input);
+        let tokens = analyzer.parse().expect("Something went wrong during the lexical analysis.");
+        println!("{:?}", tokens);
     }
 }

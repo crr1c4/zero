@@ -1,67 +1,55 @@
-// mod token;
-
 use pest::error::Error;
-use pest::Parser;
 use pest::iterators::Pair;
+use pest::Parser;
 use pest_derive::Parser;
-use std::collections::HashMap;
-// use token::Token;
 
 #[derive(Parser)]
 #[grammar = "grammar_rules.pest"]
 struct GrammarParser;
 
 #[derive(Debug)]
-enum Literal {
+pub enum Literal {
     Number(f64),
     Bool(bool),
-    Char(char)
+    Char(char),
 }
 
+pub struct LexicalAnalyzer {
+    input: String,
+}
 
-pub fn parse(input: &str) -> Result<(), Error<Rule>> {
-    let mut ast: Vec<&str> = vec![];
-    let pairs = GrammarParser::parse(Rule::program, input)?;
-    
-    for pair in pairs {
-        match pair.as_rule() {
-            Rule::program => {
-                parse_program(pair);
-            },
-            _ => {}
-        }
+impl LexicalAnalyzer {
+    pub fn new(input: String) -> Self {
+        Self { input }
     }
-    println!("{:?}", ast);
 
-    // let result = AbstractSyntaxTree::Program();
-    Ok(())
-}
-
-fn parse_program(pair: Pair<Rule>) {
-    for p in pair.into_inner() {
-        // println!("---{:?}---", p.as_rule());
-
-        match p.as_rule() {
-            Rule::literal => {
-                parse_literal(p);
-            },
-            _ => {}
-        }
-
+    pub fn parse(&self) -> Result<Vec<Literal>, Error<Rule>> {
+        let analysis = GrammarParser::parse(Rule::program, &self.input)?
+            .next()
+            .unwrap();
+        Ok(LexicalAnalyzer::read_rules(analysis))
     }
-}
 
-fn parse_literal(pair: Pair<Rule>) {
-    for p in pair.into_inner() {
+    fn read_rules(analysis: Pair<Rule>) -> Vec<Literal> {
+        let mut literals: Vec<Literal> = vec![];
 
-        let result = match p.as_rule() {
-            Rule::boolean => Literal::Bool(p.as_str().parse().unwrap()),
-            Rule::number => Literal::Number(p.as_str().parse().unwrap()),
-            Rule::char => Literal::Char(p.as_str().parse().unwrap()),
-            _ => unreachable!()
-        };
+        analysis.into_inner().for_each(|rule| match rule.as_rule() {
+            Rule::literal => rule
+                .into_inner()
+                .for_each(|literal| literals.push(LexicalAnalyzer::get_literal(literal))),
+            _ => {}
+        });
 
-        println!("{result:?}")
+        literals
+    }
+
+    fn get_literal(literal: Pair<Rule>) -> Literal {
+        match literal.as_rule() {
+            Rule::boolean => Literal::Bool(literal.as_str().parse().unwrap()),
+            Rule::number => Literal::Number(literal.as_str().parse().unwrap()),
+            Rule::char => Literal::Char(literal.as_str().parse().unwrap()),
+            _ => unreachable!(),
+        }
     }
 }
 
@@ -90,4 +78,6 @@ mod tests {
         assert!(GrammarParser::parse(Rule::literal, "0").is_ok());
         assert!(GrammarParser::parse(Rule::literal, "35.7674.456").is_err());
     }
+
+    // TODO: implenent literal enum tests
 }
