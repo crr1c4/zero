@@ -1,7 +1,7 @@
-mod parser;
+mod lexical_analyzer;
 use std::env;
 use std::fs::read_to_string;
-use parser::LexicalAnalyzer;
+use lexical_analyzer::LexicalAnalyzer;
 pub struct Interpreter;
 
 impl Interpreter {

@@ -1,13 +1,12 @@
 // Docs: https://pest.rs/book
 // Editor: https://pest.rs/#editor
 
-WHITESPACE = _{ " " | NEWLINE } 
+WHITESPACE = _{ " " | NEWLINE }
+COMMENT = _{ "##" ~  (!"\n" ~ ANY)* }
 
 //  Primitive data types
 boolean = { "true" | "false" }
 number = @{ "-"? ~ ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT+)? ~ !"." }
-//char = @{ !"'" ~ (ANY)? }
-
 char = { ANY? }
 
 // string moon literal
@@ -16,4 +15,8 @@ char = { ANY? }
 // Values
 literal = { ( boolean | number | "'" ~ char ~ "'" /* | "\"" ~ string ~ "\""*/ ) }
 
-program = { SOI ~ (literal | WHITESPACE)* ~ EOI }
+// Expresions
+identifier = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
+expression = { identifier ~ "=" ~ literal }
+
+program = { SOI ~ (literal | expression | WHITESPACE | COMMENT)* ~ EOI }

@@ -1,5 +1,5 @@
 use pest::error::Error;
-use pest::iterators::Pair;
+use pest::iterators::{Pair, Pairs};
 use pest::Parser;
 use pest_derive::Parser;
 
@@ -14,6 +14,12 @@ pub enum Literal {
     Char(char),
 }
 
+#[derive(Debug)]
+pub enum AST {
+    Value(Literal),
+    Expression(String, Literal),
+}
+
 pub struct LexicalAnalyzer {
     input: String,
 }
@@ -23,24 +29,34 @@ impl LexicalAnalyzer {
         Self { input }
     }
 
-    pub fn parse(&self) -> Result<Vec<Literal>, Error<Rule>> {
+    pub fn parse(&self) -> Result<Vec<AST>, Error<Rule>> {
         let analysis = GrammarParser::parse(Rule::program, &self.input)?
             .next()
             .unwrap();
+
+        // println!("{:?}", analysis);
         Ok(LexicalAnalyzer::read_rules(analysis))
     }
 
-    fn read_rules(analysis: Pair<Rule>) -> Vec<Literal> {
-        let mut literals: Vec<Literal> = vec![];
+    fn read_rules(analysis: Pair<Rule>) -> Vec<AST> {
+        let mut ast: Vec<AST> = vec![];
 
         analysis.into_inner().for_each(|rule| match rule.as_rule() {
             Rule::literal => rule
                 .into_inner()
-                .for_each(|literal| literals.push(LexicalAnalyzer::get_literal(literal))),
+                .for_each(|literal| ast.push(AST::Value(LexicalAnalyzer::get_literal(literal)))),
+            Rule::expression => ast.push(LexicalAnalyzer::get_expression(rule.into_inner())),
             _ => {}
         });
 
-        literals
+        ast
+    }
+
+    fn get_expression(mut expression: Pairs<Rule>) -> AST {
+        let identifier = expression.next().unwrap().as_str().to_string();
+        let value = expression.next().unwrap().into_inner().next().unwrap();
+        let value = LexicalAnalyzer::get_literal(value);
+        AST::Expression(identifier, value)
     }
 
     fn get_literal(literal: Pair<Rule>) -> Literal {
