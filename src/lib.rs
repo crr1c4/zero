@@ -26,6 +26,6 @@ impl Interpreter {
     }
 
     pub fn parse(input: &str) {
-        parser::parse_input(input);
+        parser::parse(input);
     }
 }
