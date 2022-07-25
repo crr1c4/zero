@@ -1,9 +1,9 @@
-# The str moon.
+# The string moon.
 
 Provides methods for the strings.
 
 ```
-import moons:str
+import moons::string
 ```
 
 ## State

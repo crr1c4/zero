@@ -1,5 +1,8 @@
 import { defineConfig } from "vitepress";
 
+// TODOS
+// chage imports to ::
+// change str to string
 export default defineConfig({
   title: "The Zero Programming Lenguage",
   lang: "en-us",
@@ -26,6 +29,8 @@ export default defineConfig({
         items: [
           { text: "Introduction", link: "moons/" },
           { text: "async", link: "moons/async" },
+          { text: "bool", link: "moons/bool" },
+          { text: "char", link: "moons/char" },
           { text: "collections", link: "moons/collections" },
           { text: "env", link: "moons/env" },
           { text: "fmt", link: "moons/fmt" },
@@ -34,6 +39,7 @@ export default defineConfig({
           { text: "iter", link: "moons/iter" },
           { text: "math", link: "moons/math" },
           { text: "net", link: "moons/net" },
+          { text: "number", link: "moons/number" },
           { text: "str", link: "moons/str" },
           { text: "web", link: "moons/web" },
         ],

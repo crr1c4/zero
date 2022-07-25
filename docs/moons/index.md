@@ -4,6 +4,8 @@ Moons are great modules that are provided with useful features and functionabili
 
 ### Available moons:
 - [async](/moons/async)
+- [bool](/moons/bool)
+- [char](/moons/char)
 - [collections](/moons/collections)
 - [env](/moons/env)
 - [fmt](/moons/fmt)
@@ -12,6 +14,7 @@ Moons are great modules that are provided with useful features and functionabili
 - [iter](/moons/iter)
 - [math](/moons/math)
 - [net](/moons/net)
+- [number](/moons/number)
 - [str](/moons/str)
 - [web](/moons/web)
 
@@ -23,10 +26,13 @@ import moons:io
 ```
 
 ## Auto imported moons.
-Some moons there are already been imported by default into the scope, so it's no necesary to import them again. 
+Some moons there are already been imported by default into the scope, so it isn't necesary to import them again. 
 
 - [async](/moons/async)
+- [bool](/moons/bool)
+- [char](/moons/char)
 - [math](/moons/math)
 - [io](/moons/io)
 - [iter](/moons/iter)
 - [str](/moons/str)
+- [number](/moons/number)
